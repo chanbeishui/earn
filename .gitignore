@@ -1,0 +1,39 @@
+# 环境变量
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# 虚拟环境
+venv/
+.venv/
+
+# 数据文件
+data/market.db
+data/kline/
+data/financial/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# AI 模型
+*.pth
+*.pt
+lightning_logs/
+
+# 回测报告
+reports/
+
+# OS
+.DS_Store
+Thumbs.db

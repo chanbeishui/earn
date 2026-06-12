@@ -1,0 +1,48 @@
+# QMT 连接配置
+qmt:
+  data_dir: "${QMT_DATA_DIR}"   # 从 .env 读取
+  account_id: "${QMT_ACCOUNT_ID}"
+
+# 数据存储
+storage:
+  db_path: "data/market.db"
+  kline_dir: "data/kline"
+  financial_dir: "data/financial"
+
+# 下载配置
+download:
+  daily_kline: true
+  minute_freqs: [1, 5, 15, 30, 60]
+  minute_years: 3
+  financial: true
+
+# 策略配置
+strategies:
+  enabled: []
+  stock_pool: "000300.SH"
+
+# 回测默认配置
+backtest:
+  start_date: "2020-01-01"
+  end_date: "2025-12-31"
+  initial_capital: 1000000
+  commission: 0.00025
+  stamp_duty: 0.001
+  benchmark: "000300.SH"
+
+# AI 优化默认配置
+ai:
+  optimizer:
+    method: "optuna"
+    n_trials: 500
+  predictor:
+    model: "lstm"
+    lookback: 60
+    forecast: 5
+    epochs: 100
+    batch_size: 64
+
+# 调度配置
+scheduler:
+  download_time: "15:30"
+  strategy_time: "16:00"

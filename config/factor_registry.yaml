@@ -1,0 +1,230 @@
+# 因子注册表 — 所有可用因子的元数据
+# 前端策略构建器从此文件读取因子列表
+
+factors:
+  # ======== 技术因子 ========
+  - name: ma_dif
+    display: "均线乖离率"
+    category: technical
+    description: "收盘价相对于 N 日均线的偏离程度"
+    default_params:
+      period: 20
+
+  - name: rsi
+    display: "RSI 相对强弱"
+    category: technical
+    description: "14日相对强弱指标"
+    default_params:
+      period: 14
+
+  - name: macd_dif
+    display: "MACD 离差值"
+    category: technical
+    description: "MACD DIF 与 DEA 的差值"
+    default_params:
+      fast: 12
+      slow: 26
+      signal: 9
+
+  - name: boll_position
+    display: "布林带位置"
+    category: technical
+    description: "价格在布林带中的相对位置"
+    default_params:
+      period: 20
+      std: 2
+
+  - name: turnover_rate
+    display: "换手率"
+    category: technical
+    description: "N 日平均换手率"
+    default_params:
+      period: 5
+
+  - name: volume_ratio
+    display: "量比"
+    category: technical
+    description: "当日成交量与 N 日均量的比值"
+    default_params:
+      period: 5
+
+  - name: atr
+    display: "ATR 真实波幅"
+    category: technical
+    description: "N 日平均真实波幅（波动率指标）"
+    default_params:
+      period: 14
+
+  - name: momentum
+    display: "动量因子"
+    category: technical
+    description: "N 日价格涨跌幅"
+    default_params:
+      period: 20
+
+  # ======== 基本面因子 ========
+  - name: pe_ttm
+    display: "PE_TTM"
+    category: fundamental
+    description: "滚动市盈率"
+    default_params: {}
+
+  - name: pb
+    display: "PB 市净率"
+    category: fundamental
+    description: "市净率"
+    default_params: {}
+
+  - name: roe
+    display: "ROE 净资产收益率"
+    category: fundamental
+    description: "加权净资产收益率"
+    default_params: {}
+
+  - name: revenue_yoy
+    display: "营收同比增速"
+    category: fundamental
+    description: "营业收入同比增长率"
+    default_params: {}
+
+  - name: profit_yoy
+    display: "净利润同比增速"
+    category: fundamental
+    description: "归母净利润同比增长率"
+    default_params: {}
+
+  - name: dividend_yield
+    display: "股息率"
+    category: fundamental
+    description: "近12个月股息率"
+    default_params: {}
+
+  # ======== 复合因子 ========
+  - name: ic_weighted
+    display: "IC加权打分"
+    category: composite
+    description: "基于历史IC信息系数的加权综合打分"
+    default_params:
+      lookback: 60
+
+  - name: industry_neutral
+    display: "行业中性化"
+    category: composite
+    description: "行业内 Z-score 标准化得分"
+    default_params: {}
+
+  - name: zscore_rank
+    display: "Z-score 排名"
+    category: composite
+    description: "多因子 Z-score 等权综合排名"
+    default_params: {}
+
+# 择时信号类型
+timing_signals:
+  buy:
+    - type: ma_cross
+      display: "均线金叉"
+      description: "快线上穿慢线"
+      params:
+        - {name: fast, display: "快线周期", type: int, default: 5}
+        - {name: slow, display: "慢线周期", type: int, default: 20}
+
+    - type: macd_golden_cross
+      display: "MACD 金叉"
+      description: "DIF 上穿 DEA"
+      params:
+        - {name: fast, display: "快线", type: int, default: 12}
+        - {name: slow, display: "慢线", type: int, default: 26}
+        - {name: signal, display: "信号线", type: int, default: 9}
+
+    - type: rsi_oversold
+      display: "RSI 超卖"
+      description: "RSI 低于阈值后回升"
+      params:
+        - {name: period, display: "周期", type: int, default: 14}
+        - {name: threshold, display: "超卖阈值", type: int, default: 30}
+
+    - type: boll_lower
+      display: "布林下轨突破"
+      description: "价格跌破布林下轨后回升"
+      params:
+        - {name: period, display: "周期", type: int, default: 20}
+        - {name: std, display: "标准差倍数", type: float, default: 2.0}
+
+  sell:
+    - type: ma_death_cross
+      display: "均线死叉"
+      description: "快线下穿慢线"
+      params:
+        - {name: fast, display: "快线周期", type: int, default: 5}
+        - {name: slow, display: "慢线周期", type: int, default: 20}
+
+    - type: macd_death_cross
+      display: "MACD 死叉"
+      description: "DIF 下穿 DEA"
+      params:
+        - {name: fast, display: "快线", type: int, default: 12}
+        - {name: slow, display: "慢线", type: int, default: 26}
+        - {name: signal, display: "信号线", type: int, default: 9}
+
+    - type: rsi_overbought
+      display: "RSI 超买"
+      description: "RSI 高于阈值后回落"
+      params:
+        - {name: period, display: "周期", type: int, default: 14}
+        - {name: threshold, display: "超买阈值", type: int, default: 70}
+
+    - type: boll_upper
+      display: "布林上轨突破"
+      description: "价格突破布林上轨后回落"
+      params:
+        - {name: period, display: "周期", type: int, default: 20}
+        - {name: std, display: "标准差倍数", type: float, default: 2.0}
+
+    - type: stop_loss
+      display: "固定止损"
+      description: "亏损超过设定百分比"
+      params:
+        - {name: percent, display: "止损比例(%)", type: float, default: -8.0}
+
+    - type: take_profit
+      display: "固定止盈"
+      description: "盈利超过设定百分比"
+      params:
+        - {name: percent, display: "止盈比例(%)", type: float, default: 20.0}
+
+# 过滤器类型
+filters:
+  - type: exclude_st
+    display: "排除ST股"
+    params: []
+
+  - type: market_cap_min
+    display: "市值下限(亿)"
+    params:
+      - {name: value, display: "最小市值", type: float, default: 50.0}
+
+  - type: volume_min
+    display: "成交额下限(万)"
+    params:
+      - {name: value, display: "最小成交额", type: float, default: 1000.0}
+
+  - type: price_min
+    display: "股价下限"
+    params:
+      - {name: value, display: "最低股价", type: float, default: 3.0}
+
+# 仓位规则
+position_rules:
+  - type: equal_weight
+    display: "等权分配"
+    description: "每只股票等额资金"
+    params:
+      - {name: max_stocks, display: "最大持仓数", type: int, default: 10}
+
+  - type: factor_weight
+    display: "因子得分加权"
+    description: "按因子综合得分分配权重"
+    params:
+      - {name: max_stocks, display: "最大持仓数", type: int, default: 10}
+      - {name: max_weight, display: "单票最大权重", type: float, default: 0.2}

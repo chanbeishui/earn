@@ -1,0 +1,39 @@
+# Web
+fastapi>=0.109
+uvicorn>=0.27
+streamlit>=1.32
+plotly>=5.18
+
+# 核心
+pandas>=2.0
+numpy>=1.24
+pydantic>=2.0
+pydantic-settings>=2.0
+pyyaml>=6.0
+sqlalchemy>=2.0
+python-dotenv>=1.0
+
+# QMT SDK（需手动从 QMT 客户端目录安装）
+# xtquant — 随 QMT 客户端提供
+
+# 数据存储
+pyarrow>=14.0
+
+# 技术指标
+ta>=0.11
+
+# AI / ML
+optuna>=3.5
+torch>=2.2
+pytorch-lightning>=2.1
+scikit-learn>=1.4
+
+# 回测分析
+scipy>=1.12
+
+# 调度
+apscheduler>=3.10
+
+# 开发
+pytest>=8.0
+httpx>=0.26
